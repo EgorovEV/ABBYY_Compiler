@@ -1,0 +1,7 @@
+language: cpp
+
+branches:
+  only:
+  - develop
+
+sudo: enabled
