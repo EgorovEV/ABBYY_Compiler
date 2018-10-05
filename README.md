@@ -1,4 +1,5 @@
 # ABBYY_Compiler
+[![Build Status](https://travis-ci.org/EgorovEV/ABBYY_Compiler.svg?branch=develop)](https://travis-ci.org/EgorovEV/ABBYY_Compiler)
 
 A compiler for simple Java-like programming language
 
@@ -30,8 +31,7 @@ cat test.txt | ./parser
 ...
 ```
 ## Main Results
-1. Creation of repository , lol
-2. Make first step, link flex with bison.
+...<br />
 
 ## Useful links
 http://rus-linux.net/lib.php?name=/MyLDP/algol/lex-yacc-howto.html
