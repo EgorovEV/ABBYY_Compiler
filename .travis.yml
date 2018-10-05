@@ -1,7 +1,15 @@
+sudo: required
+
+install:
+- sudo apt-get update
+- sudo apt-get install flex
+- sudo apt-get install bison
+
+# Enable C++ support
 language: cpp
 
-branches:
-  only:
-  - develop
+compiler:
+- g++-6.4
 
-sudo: enabled
+script:
+- make
