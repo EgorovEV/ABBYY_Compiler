@@ -1,7 +1,3 @@
-branches:
-  only:
-  - master
-
 sudo: required
 
 install:
@@ -17,3 +13,7 @@ compiler:
 
 script:
 - make
+
+# THE MOST IMPORTANT OPTION!
+notifications:
+email: false
