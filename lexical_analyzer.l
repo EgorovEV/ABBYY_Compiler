@@ -17,22 +17,25 @@ expression      "<"|"+"|"-"|"*"|"%"|"||"
                 }
 {expression}    {
                     yylval = yytext;
+                    printf("DEFINED ");
                     return DEFINED;
                 }
 class           {
                     yylval = yytext;
+                    return printf("CLASS ");
                     return CLASS;
                 }
 
-"."             {   yylval = yytext; return DOT;            }
-","             {   yylval = yytext; return COMMA;          }
-"("             {   yylval = yytext; return LBRACE;         }
-")"             {   yylval = yytext; return RBRACE;         }
-"{"             {   yylval = yytext; return CURLY_LBRACE;   }
-"}"             {   yylval = yytext; return CURLY_RBRACE;   }
+"."             {   yylval = yytext; printf("DOT" ); return DOT;            }
+","             {   yylval = yytext; printf("COMMA "); return COMMA;          }
+"("             {   yylval = yytext; printf("LBRACE "); return LBRACE;         }
+")"             {   yylval = yytext; printf("RBRACE "); return RBRACE;         }
+"{"             {   yylval = yytext; printf("CURLY_LBRACE "); return CURLY_LBRACE;   }
+"}"             {   yylval = yytext; printf("CURLY_BRACE "); return CURLY_RBRACE;   }
 
 {identifier}    {
                     yylval = yytext;
+                    printf("ID ");
                     return ID;
                 }
 
@@ -40,27 +43,28 @@ class           {
 [ \t]+          ; /* skip whitespaces */
 .               {
                     yylval = yytext;
+                    printf("OTHER ");
                     return OTHER;
                 }
-if                      {	return IF;	}
-else		            {	return ELSE;	}
-while		            {	 return WHILE;	}
-return		            {	 return RETURN;	}
-extends		            {	 return EXTENDS; }
-public		            {	 return PUBLIC;	}
-static		            {	 return STATIC;	}
-void		            {	 return VOID;	}
-main		            {	 return MAIN;	}
-int 		            {    return INT;	}
-boolean		            {    return BOOL;	}
-String		            {	 return STRING;	}
-System.out.println	    {	 return PRINTLN;	}
-this		            {	 return THIS;	}
-length		            {	 return LENGTH;	}
-new			            {	 return NEW;	}
-"&&"		            {	 return AND;	}
-"true"|"false"		    {	yylval = yytext; return BOOLEAN_VAL; }
-[0-9]+		            {	yylval = yytext; return INTEGER_VAL; }
+if                      {printf("IF ");	return IF;	}
+else		            {printf("ELSE ");	return ELSE;	}
+while		            {printf("WHILE ");	 return WHILE;	}
+return		            {printf("RETURN ");	 return RETURN;	}
+extends		            {printf("EXTENDS ");	 return EXTENDS; }
+public		            {printf("PUBLIC ");	 return PUBLIC;	}
+static		            {printf("STATIC ");	 return STATIC;	}
+void		            {printf("VOID ");	 return VOID;	}
+main		            {printf("MAIN ");	 return MAIN;	}
+int 		            {printf("INT ");    return INT;	}
+boolean		            {printf("BOOL ");    return BOOL;	}
+String		            {printf("STRING ");	 return STRING;	}
+System.out.println	    {printf("PRINTLN ");	 return PRINTLN;	}
+this		            {printf("THIS ");	 return THIS;	}
+length		            {printf("LENGTH ");	 return LENGTH;	}
+new			            {printf("NEW ");	 return NEW;	}
+"&&"		            {printf("AND ");	 return AND;	}
+"true"|"false"		    {printf("BOOLEAN_VAL ");	yylval = yytext; return BOOLEAN_VAL; }
+[0-9]+		            {printf("INTEGER_VAL ");	yylval = yytext; return INTEGER_VAL; }
 [/][/].*\n              {  } // comment
 
 %%
