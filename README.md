@@ -21,7 +21,7 @@ https://drive.google.com/drive/u/0/folders/1Q7nlEMtqZIvuYCEbITspLKm4TuCq4KLL <br
 
 ## Demo:
 ```asm
-bash make
+make
 cat test.txt | ./parser
 ```
 Должен вывести первой сторокой: "CLASS: Factorial({)" <br />
