@@ -3,10 +3,10 @@
 
 A compiler for simple Java-like programming language
 
-By ... <br />
+By some ABBYY students <br />
 
 ## Introduction
-...
+Welcome wanderer! <br />
 
 ## Dependencies:
 
@@ -17,21 +17,26 @@ To install required dependencies run:<br />
 ...<br />
 
 ## Materials:
-
+https://drive.google.com/drive/u/0/folders/1Q7nlEMtqZIvuYCEbITspLKm4TuCq4KLL <br />
 
 ## Demo:
 ```asm
-bash run.sh
+bash make
 cat test.txt | ./parser
 ```
-Должен вывести "CLASS: Factorial({)" <br />
+Должен вывести первой сторокой: "CLASS: Factorial({)" <br />
+Далее по ситуации <br />
 
 ### To run the compiler:
 ```asm
-...
+... see Demo
 ```
 ## Main Results
-...<br />
+connected flex with bison<br />
+expand grammar<br />
+create if-else, tests are required <br />
+
 
 ## Useful links
-http://rus-linux.net/lib.php?name=/MyLDP/algol/lex-yacc-howto.html
+how2start: http://rus-linux.net/lib.php?name=/MyLDP/algol/lex-yacc-howto.html <br />
+bison docs: ftp://ftp.auckland.ac.nz/pub/gnu/Manuals/bison-1.35/html_chapter/bison_8.html <br />
