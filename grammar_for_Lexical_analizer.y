@@ -23,6 +23,7 @@
     }
     int main();
 %}
+
 %token SHUT_DOWN
 %token CLASS
 %token ID DOT COMMA LBRACE RBRACE CURLY_LBRACE CURLY_RBRACE
@@ -38,16 +39,19 @@ input: /* empty */
 
 tmp_start:
     | class_def
+    | if
     | id_tmp
     | comma_tmp
     | lbrace_tmp
-    | if
     | ending_process
 ;
+
+//expression:
 
 ending_process: SHUT_DOWN
     {
         cout << "SHUT_DOWN" << $1 << endl;
+        return 0;
     }
 ;
 
@@ -56,13 +60,13 @@ if:
         | IF expr stmt ELSE stmt
 ;
 
-expr: DEFINED
+expr: ID
     {
         cout << "find some expr inside if! (not done yet)" << $1 << endl;
     }
 ;
 
-stmt: DEFINED
+stmt: ID
     {
         cout << "find some statement inside else! (not done yet)" << $1 << endl;
     }
