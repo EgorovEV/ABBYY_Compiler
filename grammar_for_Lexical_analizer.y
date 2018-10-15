@@ -9,6 +9,8 @@
     #define DEBUG
 
     int  wrapRet = 1;
+    bool print_bison = false;
+    bool print_flex = false;
 
     int yylex(void);
     extern "C" {
@@ -21,7 +23,7 @@
           //cout << "mini-Java Parser: " << str << endl;
         #endif
     }
-    int main();
+    int main(int, char **);
 %}
 %token SHUT_DOWN
 %token CLASS
@@ -47,7 +49,8 @@ tmp_start:
 
 ending_process: SHUT_DOWN
     {
-        cout << "SHUT_DOWN" << $1 << endl;
+	if(print_bison)
+            cout << "SHUT_DOWN" << $1 << endl;
     }
 ;
 
@@ -58,19 +61,22 @@ if:
 
 expr: DEFINED
     {
-        cout << "find some expr inside if! (not done yet)" << $1 << endl;
+	if(print_bison)
+        	cout << "find some expr inside if! (not done yet)" << $1 << endl;
     }
 ;
 
 stmt: DEFINED
     {
-        cout << "find some statement inside else! (not done yet)" << $1 << endl;
+	if(print_bison)
+        	cout << "find some statement inside else! (not done yet)" << $1 << endl;
     }
 ;
 
 /* CLASS */
 class_def: CLASS classname CURLY_LBRACE suite
     {
+	if(print_bison)
         cout << " >> CLASS: "
              << $2            << "("
              << $3            << ")"
@@ -85,18 +91,21 @@ classname: ID
 
 id_tmp: ID
     {
+	if(print_bison)
         cout << "find id: " << $1 << endl;
     }
 ;
 
 comma_tmp: COMMA
     {
+	if(print_bison)
         cout << "find comma: " << $1 << endl;
     }
 ;
 
 lbrace_tmp: LBRACE
     {
+	if(print_bison)
         cout << "find lbrace: " << $1 << endl;
     }
 ;
@@ -104,8 +113,19 @@ lbrace_tmp: LBRACE
 suite:
 ;
 %%
-int main()
+int main(int argc, char **argv)
 {
+    for(int i = 1; i < argc; ++i) 
+    {
+	if(std::string(argv[i]) == "-pl") 
+        {
+	    print_flex = true;
+	}
+	if(std::string(argv[i]) == "-pb") 
+        {
+	    print_bison = true;
+	}
+    }
     return yyparse();
 }
 
