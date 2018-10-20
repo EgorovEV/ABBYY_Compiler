@@ -41,12 +41,6 @@ class           {
 "{"             {   yylval = yytext; printf("CURLY_LBRACE "); return CURLY_LBRACE;   }
 "}"             {   yylval = yytext; printf("CURLY_BRACE "); return CURLY_RBRACE;   }
 
-{identifier}    {
-                    yylval = yytext;
-                    printf("id ");
-                    return ID;
-                }
-
 
 [ \t]+          ; /* skip whitespaces */
 
@@ -71,9 +65,16 @@ new			            {printf("NEW ");	 return NEW;	}
 [0-9]+		            {printf("INTEGER_VAL ");	yylval = yytext; return INTEGER_VAL; }
 [/][/].*\n              {  } // comment
 
+{identifier}    {
+                    yylval = yytext;
+                    printf("id ");
+                    return ID;
+                }
+
 .               {
                     yylval = yytext;
                     printf("OTHER ");
                     return OTHER;
                 }
 %%
+

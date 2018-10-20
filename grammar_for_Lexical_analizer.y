@@ -2,7 +2,6 @@
     #include <cstdio>
     #include <string>
     #include <iostream>
-
     using namespace std;
     #define YYSTYPE string
     #define YYERROR_VERBOSE 1
@@ -23,6 +22,12 @@
     }
     int main();
 %}
+
+%union {
+    char* val;
+}
+
+
 %token SHUT_DOWN
 %token CLASS
 %token ID DOT COMMA LBRACE RBRACE CURLY_LBRACE CURLY_RBRACE
@@ -30,83 +35,254 @@
 %token WHILE RETURN EXTENDS PUBLIC STATIC VOID MAIN INT BOOL STRING PRINTLN THIS
 %token LENGTH  NEW AND BOOLEAN_VAL INTEGER_VAL
 %token IF ELSE variable  /* Solve If-else conflict */
-%start input
+
+
+%type <val> start_point main_class_declaration class_declaration_list class_declaration
+VarDeclarationList VarDeclaration ExpressionEnumerate StatementList
+MethodDeclarationList ParameterEnumerateList ParameterEnumerate Type Statement
+Expression ExpressionList ExpressionEnumerateList
+Identifier INTEGER_VAL BOOLEAN_VAL
+
+
+
+%left AND
+%left '<' '='
+%left '+' '-'
+%left '*' '/'
+%left '!'
+%left '.' '[' ']'
+
+%start start_point
 %%
-input: /* empty */
-| input tmp_start
-;
+start_point: main_class_declaration class_declaration_list{
+    cout << "start" << endl;
+}
 
-tmp_start:
-    | class_def
-    | id_tmp
-    | comma_tmp
-    | lbrace_tmp
-    | if
-    | ending_process
-;
+main_class_declaration:
+    CLASS Identifier '{'  VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
+        {
+            cout << "main class declaration start!\n" << endl;
+        }
 
-ending_process: SHUT_DOWN
+class_declaration_list:
+    /* empty */
     {
-        cout << "SHUT_DOWN" << $1 << endl;
+        cout << "class_dec_list empty";
     }
-;
+    | class_declaration_list class_declaration{
+      		cout << " \n";
+    }
 
-if:
-        | IF expr stmt
-        | IF expr stmt ELSE stmt
-;
+class_declaration:
+    CLASS Identifier '{'  VarDeclarationList MethodDeclarationList '}' {
+		cout << " \n";
+	}
+	| CLASS Identifier EXTENDS Identifier '{'  VarDeclarationList MethodDeclarationList '}' {
+		cout << " \n";
+    }
 
-expr: DEFINED
+VarDeclarationList :
+    /* empty */
     {
-        cout << "find some expr inside if! (not done yet)" << $1 << endl;
+        cout << "empty var_list\n";
     }
-;
-
-stmt: DEFINED
+    | VarDeclarationList VarDeclaration
     {
-        cout << "find some statement inside else! (not done yet)" << $1 << endl;
+        cout << "var_list\n";
     }
-;
 
-/* CLASS */
-class_def: CLASS classname CURLY_LBRACE suite
+VarDeclaration : Type Identifier ';'
+{
+    cout << "var declaration\n";
+}
+
+MethodDeclarationList :
+    /* empty */
     {
-        cout << " >> CLASS: "
-             << $2            << "("
-             << $3            << ")"
-             << endl;
+        cout << "empty method_list\n";
     }
-;
-classname: ID
-           {
-               $$ = $1;
-           }
-;
-
-id_tmp: ID
+    | MethodDeclaration MethodDeclarationList    // WATAFUUUUUU
     {
-        cout << "find id: " << $1 << endl;
+        cout << "method_list\n";
     }
-;
 
-comma_tmp: COMMA
+MethodDeclaration :
+PUBLIC Type Identifier '(' ParameterList ')' '{' VarDeclarationList StatementList RETURN Expression ';' '}'
+{
+    cout << "Method declaration\n";
+}
+
+ParameterList:
     {
-        cout << "find comma: " << $1 << endl;
+        cout << " \n";
     }
-;
-
-lbrace_tmp: LBRACE
+    | Type Identifier ParameterEnumerateList
     {
-        cout << "find lbrace: " << $1 << endl;
+        cout << " \n";
     }
-;
 
-suite:
-;
+ParameterEnumerateList:
+    {
+        cout << " \n";
+    }
+    | ParameterEnumerate ParameterEnumerateList
+    {
+        cout << " \n";
+    }
+
+ParameterEnumerate:
+    ',' Type Identifier{
+        cout << " \n";
+    }
+
+Type:
+    INT '[' ']'
+        {
+            cout << " \n";
+        }
+    | BOOL
+        {
+            cout << " \n";
+        }
+    | INT
+        {
+            cout << " \n";
+        }
+    | Identifier
+        {
+            cout << "Type declaration\n";
+        }
+
+StatementList :
+    /* empty */
+    {
+        cout << "empty statement_list\n";
+    }
+    | Statement StatementList
+    {
+        cout << "method_list\n";
+    }
+
+
+Statement:
+   '{' StatementList '}'
+        {
+            cout << " \n";
+        }
+   | IF '(' Expression ')' Statement ELSE Statement
+        {
+            cout << " \n";
+        }
+   | WHILE '(' Expression ')' Statement
+        {
+            cout << " \n";
+        }
+   | PRINTLN '(' Expression ')' ';'
+        {
+            cout << " \n";
+        }
+   | Identifier '=' Expression ';'
+        {
+            cout << " \n";
+        }
+   | Identifier '[' Expression ']' '=' Expression ';'
+        {
+            cout << "YOLO!\n";
+        }
+
+Expression :
+    Expression  '<' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '+' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '-' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '*' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '/' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '.' LENGTH
+        {
+            cout << " \n";
+        }
+    | Expression '.' Identifier '(' ExpressionList ')'
+        {
+            cout << " \n";
+        }
+    | INTEGER_VAL
+        {
+            cout << " \n";
+        }
+    | BOOLEAN_VAL
+        {
+            cout << " \n";
+        }
+    | Identifier
+        {
+            cout << " \n";
+        }
+    | THIS
+        {
+            cout << " \n";
+        }
+    | NEW INT '[' Expression ']'
+        {
+            cout << " \n";
+        }
+    | NEW Identifier '(' ')'
+        {
+            cout << " \n";
+        }
+    | '!' Expression
+            {
+                cout << " \n";
+            }
+    | '(' Expression ')'
+        {
+            cout << " \n";
+        }
+
+Identifier: ID
+    {
+        cout << "id";
+    }
+
+ExpressionList:
+    {
+        cout << " \n";
+    }
+| Expression ExpressionEnumerateList
+    {
+        cout << " \n";
+    }
+
+ExpressionEnumerateList:
+    {
+        cout << " \n";
+    }
+    | ExpressionEnumerate ExpressionEnumerateList
+    {
+        cout << " \n";
+    }
+
+ExpressionEnumerate:
+    ',' Expression {
+        cout << " \n";
+    }
+
 %%
+
 int main()
 {
     return yyparse();
 }
-
-/* RBRACE CURLY_LBRACE CURLY_RBRACE OTHER DEF  DEFINED IF ELSE WHILE RETURN EXTENDS PUBLIC STATIC VOID MAIN INT BOOL STRING PRINTLN THIS LENGTH  NEW AND BOOLEAN_VAL INTEGER_VAL*/
