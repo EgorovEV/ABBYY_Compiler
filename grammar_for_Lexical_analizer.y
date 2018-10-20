@@ -53,16 +53,11 @@ Identifier INTEGER_VAL BOOLEAN_VAL
 %left '!'
 %left '.' '[' ']'
 
-%start input
+%start start_point
 %%
-input: /* empty */
-| input start_point
-;
-
 start_point: main_class_declaration class_declaration_list{
     cout << "start" << endl;
 }
-;
 
 main_class_declaration:
     CLASS Identifier '{'  VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
