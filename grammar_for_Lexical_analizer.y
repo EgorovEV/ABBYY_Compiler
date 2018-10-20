@@ -24,6 +24,10 @@
     int main();
 %}
 
+%union {
+    char* val;
+}
+
 %token SHUT_DOWN
 %token CLASS
 %token ID DOT COMMA LBRACE RBRACE CURLY_LBRACE CURLY_RBRACE
@@ -31,6 +35,24 @@
 %token WHILE RETURN EXTENDS PUBLIC STATIC VOID MAIN INT BOOL STRING PRINTLN THIS
 %token LENGTH  NEW AND BOOLEAN_VAL INTEGER_VAL
 %token IF ELSE variable  /* Solve If-else conflict */
+
+
+%type <val> start_point main_class_declaration class_declaration_list class_declaration
+VarDeclarationList VarDeclaration ExpressionEnumerate StatementList
+MethodDeclarationList ParameterEnumerateList ParameterEnumerate Type Statement
+Expression ExpressionList ExpressionEnumerateList
+Identifier INTEGER_VAL BOOLEAN_VAL
+
+
+
+%left AND
+%left '<' '='
+%left '+' '-'
+%left '*' '/'
+%left UMINUS
+%left '!'
+%left '.' '[' ']'
+
 %start input
 %%
 input: /* empty */
@@ -54,15 +76,15 @@ class_declaration_list:
         cout << "class_dec_list empty";
     }
     | class_declaration class_declaration_list {
-      		$$ = NULL;
+      		cout << " \n";
     }
 
 class_declaration:
     CLASS Identifier '{'  VarDeclarationList MethodDeclarationList '}' {
-		$$ = NULL;
+		cout << " \n";
 	}
 	| CLASS Identifier EXTENDS Identifier '{'  VarDeclarationList MethodDeclarationList '}' {
-		$$ = NULL;
+		cout << " \n";
     }
 
 VarDeclarationList :
@@ -72,7 +94,7 @@ VarDeclarationList :
     }
     | VarDeclarationList VarDeclaration
     {
-        cout << "var_list\n"
+        cout << "var_list\n";
     }
 
 VarDeclaration : Type ID ';'
@@ -87,7 +109,7 @@ MethodDeclarationList :
     }
     | VarDeclarationList VarDeclaration
     {
-        cout << "method_list\n"
+        cout << "method_list\n";
     }
 
 MethodDeclaration :
@@ -98,42 +120,44 @@ PUBLIC Type Identifier '(' ParameterList ')' '{' VarDeclarationList StatementLis
 
 ParameterList:
     {
-        $$ = NULL;
+        cout << " \n";
     }
     | Type Identifier ParameterEnumerateList
     {
-        $$ = NULL;
+        cout << " \n";
     }
 
 ParameterEnumerateList:
     {
-        $$ = NULL;
+        cout << " \n";
     }
     | ParameterEnumerate ParameterEnumerateList
     {
-        $$ = NULL;
+        cout << " \n";
     }
 
 ParameterEnumerate:
-    ',' Type Identifier
+    ',' Type Identifier{
+        cout << " \n";
+    }
 
-Type :
-| INT '[' ']'
-    {
-        $$ = NULL;
-    }
-| BOOL
-    {
-        $$ = NULL;
-    }
-| INT
-    {
-        $$ = NULL;
-    }
-| Identifier
-{
-    cout << "Type declaration\n";
-}
+Type:
+    INT '[' ']'
+        {
+            cout << " \n";
+        }
+    | BOOL
+        {
+            cout << " \n";
+        }
+    | INT
+        {
+            cout << " \n";
+        }
+    | Identifier
+        {
+            cout << "Type declaration\n";
+        }
 
 StatementList :
     /* empty */
@@ -142,38 +166,92 @@ StatementList :
     }
     | StatementList Statement
     {
-        cout << "method_list\n"
+        cout << "method_list\n";
     }
 
 
 Statement:
             '{' StatementList '}'
+            {
+                cout << " \n";
+            }
            | IF '(' Expression ')' Statement ELSE Statement
+            {
+                cout << " \n";
+            }
            | WHILE '(' Expression ')' Statement
+            {
+                cout << " \n";
+            }
            | PRINTLN '(' Expression ')' ';'
+            {
+                cout << " \n";
+            }
            | Identifier '=' Expression ';'
+            {
+                cout << " \n";
+            }
            | Identifier '[' Expression ']' '=' Expression ';'
+            {
+                cout << "YOLO!\n";
+            }
 {
     cout << "statement\n";
 }
 
 Expression :
-Expression  '<' Expression
-| Expression '+' Expression
-| Expression '-' Expression
-| Expression '*' Expression
-| Expression '.' LENGTH
-| Expression '.' Identifier '(' ExpressionList ')'
-| INTEGER_VAL
-| BOOLEAN_VAL
-| Identifier
-| THIS
-| NEW INT '[' Expression ']'
-| NEW Identifier '(' ')'
-| '(' Expression ')'
-{
-    cout << "expression\n";
-}
+    Expression  '<' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '+' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '-' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '*' Expression
+        {
+            cout << " \n";
+        }
+    | Expression '.' LENGTH
+        {
+            cout << " \n";
+        }
+    | Expression '.' Identifier '(' ExpressionList ')'
+        {
+            cout << " \n";
+        }
+    | INTEGER_VAL
+                {
+                    cout << " \n";
+                }
+    | BOOLEAN_VAL
+                {
+                    cout << " \n";
+                }
+    | Identifier
+                {
+                    cout << " \n";
+                }
+    | THIS
+                {
+                    cout << " \n";
+                }
+    | NEW INT '[' Expression ']'
+        {
+            cout << " \n";
+        }
+    | NEW Identifier '(' ')'
+        {
+            cout << " \n";
+        }
+    | '(' Expression ')'
+        {
+            cout << " \n";
+        }
 
 Identifier: ID
 {
@@ -182,24 +260,24 @@ Identifier: ID
 
 ExpressionList:
     {
-        $$ = NULL;
+        cout << " \n";
     }
 | Expression ExpressionEnumerateList
     {
-        $$ = NULL;
+        cout << " \n";
     }
 
 ExpressionEnumerateList:
     {
-        $$ = NULL;
+        cout << " \n";
     }
     | ExpressionEnumerate
     {
-        $$ = NULL;
+        cout << " \n";
     }
 
 ExpressionEnumerate:
     ',' Expression {
-        $$ = NULL;
+        cout << " \n";
     }
 
