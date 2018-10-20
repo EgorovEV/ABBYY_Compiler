@@ -75,7 +75,7 @@ class_declaration_list:
     {
         cout << "class_dec_list empty";
     }
-    | class_declaration class_declaration_list {
+    | class_declaration_list class_declaration{
       		cout << " \n";
     }
 
@@ -97,7 +97,7 @@ VarDeclarationList :
         cout << "var_list\n";
     }
 
-VarDeclaration : Type ID ';'
+VarDeclaration : Type Identifier ';'
 {
     cout << "var declaration\n";
 }
@@ -107,7 +107,7 @@ MethodDeclarationList :
     {
         cout << "empty method_list\n";
     }
-    | VarDeclarationList VarDeclaration
+    | MethodDeclaration MethodDeclarationList    // WATAFUUUUUU
     {
         cout << "method_list\n";
     }
@@ -164,40 +164,37 @@ StatementList :
     {
         cout << "empty statement_list\n";
     }
-    | StatementList Statement
+    | Statement StatementList
     {
         cout << "method_list\n";
     }
 
 
 Statement:
-            '{' StatementList '}'
-            {
-                cout << " \n";
-            }
-           | IF '(' Expression ')' Statement ELSE Statement
-            {
-                cout << " \n";
-            }
-           | WHILE '(' Expression ')' Statement
-            {
-                cout << " \n";
-            }
-           | PRINTLN '(' Expression ')' ';'
-            {
-                cout << " \n";
-            }
-           | Identifier '=' Expression ';'
-            {
-                cout << " \n";
-            }
-           | Identifier '[' Expression ']' '=' Expression ';'
-            {
-                cout << "YOLO!\n";
-            }
-{
-    cout << "statement\n";
-}
+   '{' StatementList '}'
+        {
+            cout << " \n";
+        }
+   | IF '(' Expression ')' Statement ELSE Statement
+        {
+            cout << " \n";
+        }
+   | WHILE '(' Expression ')' Statement
+        {
+            cout << " \n";
+        }
+   | PRINTLN '(' Expression ')' ';'
+        {
+            cout << " \n";
+        }
+   | Identifier '=' Expression ';'
+        {
+            cout << " \n";
+        }
+   | Identifier '[' Expression ']' '=' Expression ';'
+        {
+            cout << "YOLO!\n";
+        }
 
 Expression :
     Expression  '<' Expression
@@ -225,21 +222,21 @@ Expression :
             cout << " \n";
         }
     | INTEGER_VAL
-                {
-                    cout << " \n";
-                }
+        {
+            cout << " \n";
+        }
     | BOOLEAN_VAL
-                {
-                    cout << " \n";
-                }
+        {
+            cout << " \n";
+        }
     | Identifier
-                {
-                    cout << " \n";
-                }
+        {
+            cout << " \n";
+        }
     | THIS
-                {
-                    cout << " \n";
-                }
+        {
+            cout << " \n";
+        }
     | NEW INT '[' Expression ']'
         {
             cout << " \n";
@@ -248,15 +245,19 @@ Expression :
         {
             cout << " \n";
         }
+    | '!' Expression
+            {
+                cout << " \n";
+            }
     | '(' Expression ')'
         {
             cout << " \n";
         }
 
 Identifier: ID
-{
-    cout << "id";
-}
+    {
+        cout << "id";
+    }
 
 ExpressionList:
     {
@@ -271,7 +272,7 @@ ExpressionEnumerateList:
     {
         cout << " \n";
     }
-    | ExpressionEnumerate
+    | ExpressionEnumerate ExpressionEnumerateList
     {
         cout << " \n";
     }
