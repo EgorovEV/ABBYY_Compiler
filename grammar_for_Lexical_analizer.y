@@ -2,7 +2,6 @@
     #include <cstdio>
     #include <string>
     #include <iostream>
-
     using namespace std;
     #define YYSTYPE string
     #define YYERROR_VERBOSE 1
@@ -28,6 +27,7 @@
     char* val;
 }
 
+
 %token SHUT_DOWN
 %token CLASS
 %token ID DOT COMMA LBRACE RBRACE CURLY_LBRACE CURLY_RBRACE
@@ -49,7 +49,6 @@ Identifier INTEGER_VAL BOOLEAN_VAL
 %left '<' '='
 %left '+' '-'
 %left '*' '/'
-%left UMINUS
 %left '!'
 %left '.' '[' ']'
 
@@ -208,6 +207,10 @@ Expression :
         {
             cout << " \n";
         }
+    | Expression '/' Expression
+        {
+            cout << " \n";
+        }
     | Expression '.' LENGTH
         {
             cout << " \n";
@@ -277,3 +280,9 @@ ExpressionEnumerate:
         cout << " \n";
     }
 
+%%
+
+int main()
+{
+    return yyparse();
+}
