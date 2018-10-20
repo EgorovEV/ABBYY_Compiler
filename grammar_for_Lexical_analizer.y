@@ -34,83 +34,172 @@
 %start input
 %%
 input: /* empty */
-| input tmp_start
+| input start_point
 ;
 
-tmp_start:
-    | class_def
-    | if
-    | id_tmp
-    | comma_tmp
-    | lbrace_tmp
-    | ending_process
+start_point: main_class_declaration class_declaration_list{
+    cout << "start" << endl;
+}
 ;
 
-//expression:
+main_class_declaration:
+    CLASS Identifier '{'  VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
+        {
+            cout << "main class declaration start!\n" << endl;
+        }
 
-ending_process: SHUT_DOWN
+class_declaration_list:
+    /* empty */
     {
-        cout << "SHUT_DOWN" << $1 << endl;
-        return 0;
+        cout << "class_dec_list empty";
     }
-;
+    | class_declaration class_declaration_list {
+      		$$ = NULL;
+    }
 
-if:
-        | IF expr stmt
-        | IF expr stmt ELSE stmt
-;
+class_declaration:
+    CLASS Identifier '{'  VarDeclarationList MethodDeclarationList '}' {
+		$$ = NULL;
+	}
+	| CLASS Identifier EXTENDS Identifier '{'  VarDeclarationList MethodDeclarationList '}' {
+		$$ = NULL;
+    }
 
-expr: ID
+VarDeclarationList :
+    /* empty */
     {
-        cout << "find some expr inside if! (not done yet)" << $1 << endl;
+        cout << "empty var_list\n";
     }
-;
-
-stmt: ID
+    | VarDeclarationList VarDeclaration
     {
-        cout << "find some statement inside else! (not done yet)" << $1 << endl;
+        cout << "var_list\n"
     }
-;
 
-/* CLASS */
-class_def: CLASS classname CURLY_LBRACE suite
-    {
-        cout << " >> CLASS: "
-             << $2            << "("
-             << $3            << ")"
-             << endl;
-    }
-;
-classname: ID
-           {
-               $$ = $1;
-           }
-;
-
-id_tmp: ID
-    {
-        cout << "find id: " << $1 << endl;
-    }
-;
-
-comma_tmp: COMMA
-    {
-        cout << "find comma: " << $1 << endl;
-    }
-;
-
-lbrace_tmp: LBRACE
-    {
-        cout << "find lbrace: " << $1 << endl;
-    }
-;
-
-suite:
-;
-%%
-int main()
+VarDeclaration : Type ID ';'
 {
-    return yyparse();
+    cout << "var declaration\n";
 }
 
-/* RBRACE CURLY_LBRACE CURLY_RBRACE OTHER DEF  DEFINED IF ELSE WHILE RETURN EXTENDS PUBLIC STATIC VOID MAIN INT BOOL STRING PRINTLN THIS LENGTH  NEW AND BOOLEAN_VAL INTEGER_VAL*/
+MethodDeclarationList :
+    /* empty */
+    {
+        cout << "empty method_list\n";
+    }
+    | VarDeclarationList VarDeclaration
+    {
+        cout << "method_list\n"
+    }
+
+MethodDeclaration :
+PUBLIC Type Identifier '(' ParameterList ')' '{' VarDeclarationList StatementList RETURN Expression ';' '}'
+{
+    cout << "Method declaration\n";
+}
+
+ParameterList:
+    {
+        $$ = NULL;
+    }
+    | Type Identifier ParameterEnumerateList
+    {
+        $$ = NULL;
+    }
+
+ParameterEnumerateList:
+    {
+        $$ = NULL;
+    }
+    | ParameterEnumerate ParameterEnumerateList
+    {
+        $$ = NULL;
+    }
+
+ParameterEnumerate:
+    ',' Type Identifier
+
+Type :
+| INT '[' ']'
+    {
+        $$ = NULL;
+    }
+| BOOL
+    {
+        $$ = NULL;
+    }
+| INT
+    {
+        $$ = NULL;
+    }
+| Identifier
+{
+    cout << "Type declaration\n";
+}
+
+StatementList :
+    /* empty */
+    {
+        cout << "empty statement_list\n";
+    }
+    | StatementList Statement
+    {
+        cout << "method_list\n"
+    }
+
+
+Statement:
+            '{' StatementList '}'
+           | IF '(' Expression ')' Statement ELSE Statement
+           | WHILE '(' Expression ')' Statement
+           | PRINTLN '(' Expression ')' ';'
+           | Identifier '=' Expression ';'
+           | Identifier '[' Expression ']' '=' Expression ';'
+{
+    cout << "statement\n";
+}
+
+Expression :
+Expression  '<' Expression
+| Expression '+' Expression
+| Expression '-' Expression
+| Expression '*' Expression
+| Expression '.' LENGTH
+| Expression '.' Identifier '(' ExpressionList ')'
+| INTEGER_VAL
+| BOOLEAN_VAL
+| Identifier
+| THIS
+| NEW INT '[' Expression ']'
+| NEW Identifier '(' ')'
+| '(' Expression ')'
+{
+    cout << "expression\n";
+}
+
+Identifier: ID
+{
+    cout << "id";
+}
+
+ExpressionList:
+    {
+        $$ = NULL;
+    }
+| Expression ExpressionEnumerateList
+    {
+        $$ = NULL;
+    }
+
+ExpressionEnumerateList:
+    {
+        $$ = NULL;
+    }
+    | ExpressionEnumerate
+    {
+        $$ = NULL;
+    }
+
+ExpressionEnumerate:
+    ',' Expression {
+        $$ = NULL;
+    }
+
