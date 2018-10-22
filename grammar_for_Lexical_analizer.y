@@ -32,7 +32,8 @@
 
 %token SHUT_DOWN
 %token CLASS
-%token ID DOT COMMA LBRACE RBRACE CURLY_LBRACE CURLY_RBRACE
+%token ID
+%token OR
 %token OTHER DEF  DEFINED
 %token WHILE RETURN EXTENDS PUBLIC STATIC VOID MAIN INT BOOL STRING PRINTLN THIS
 %token LENGTH  NEW AND BOOLEAN_VAL INTEGER_VAL
@@ -61,7 +62,7 @@ start_point: main_class_declaration class_declaration_list{
 }
 
 main_class_declaration:
-    CLASS Identifier '{'  VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
+    CLASS Identifier '{'  PUBLIC STATIC VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
         {
             cout << "main class declaration start!\n" << endl;
         }
@@ -256,7 +257,7 @@ Expression :
 
 Identifier: ID
     {
-        cout << "id";
+        cout << " \n";
     }
 
 ExpressionList:

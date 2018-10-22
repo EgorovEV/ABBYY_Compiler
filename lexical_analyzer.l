@@ -10,77 +10,50 @@
 %}
 
 identifier      [_a-zA-Z][_a-zA-Z0-9]*
-expression      "<"|"+"|"-"|"*"|"%"|"||"
 
 %%
 
 SHUT_DOWN       {
                     yylval = yytext;
-		    if(print_flex)
-                    printf("SHUT_DOWN");
+		            if(print_flex)
+                        printf("SHUT_DOWN");
                     return SHUT_DOWN;
                 }
+['<'|'+'|'-'|'*'|'%']  {
+                            yylval = yytext;
+                            if(print_flex)
+                                printf("math_symbol");
+                            return yytext[0];
+                        }
 
-\n\r|\r\n|\n|\r {
+"||"            {
+                    printf("OR %s", yytext);
+                    return OR;
+}
+
+[\n\r|\r\n|\n|\r] {
                     /* skip empty line */
                 }
-{expression}    {
-                    yylval = yytext;
-		    if(print_flex)
-                    printf("DEFINED ");
-                    return DEFINED;
-                }
 class           {
-
                     yylval = yytext;
-		    if(print_flex)
-                    printf("class ");
+        		    if(print_flex)
+                        printf("class ");
                     return CLASS;
-                }
-
-"."             {   yylval = yytext; 
-		    if(print_flex)
-			printf("DOT" ); 
-		    return DOT;            
-		}
-","             {   yylval = yytext; 
-		    if(print_flex)
-			printf("COMMA "); 
-		    return COMMA;          }
-"("             {   yylval = yytext; 
-		    if(print_flex)
-			printf("LBRACE "); 
-		    return LBRACE;         }
-")"             {   yylval = yytext; 
-		    if(print_flex)
-			printf("RBRACE "); 
-		    return RBRACE;         }
-"{"             {   yylval = yytext; 
-		    if(print_flex)
-			printf("CURLY_LBRACE "); 
-		    return CURLY_LBRACE;   }
-"}"             {   yylval = yytext; 
-		    if(print_flex)
-			printf("CURLY_BRACE "); 
-		    return CURLY_RBRACE;   }
-
-{identifier}    {
-                    yylval = yytext;
-		    if(print_flex)
-                       printf("id ");
-                    return ID;
                 }
 
 [ \t]+          ; /* skip whitespaces */
 
-if                      {
+
+if  {
+        if(print_flex)
+            printf("IF ");
+        return IF;
+    }
+else    {
 		    if(print_flex)
-			printf("IF ");	
-		    return IF;	}
-else		            {
-		    if(print_flex)
-			printf("ELSE ");	
-		    return ELSE;	}
+			    printf("ELSE ");
+		    return ELSE;
+		}
 while		            { if(print_flex) printf("WHILE ");	 return WHILE;	}
 return		            { if(print_flex) printf("RETURN ");	 return RETURN;	}
 extends		            { if(print_flex) printf("EXTENDS ");	 return EXTENDS; }
@@ -99,10 +72,12 @@ new			            { if(print_flex) printf("NEW ");	 return NEW;	}
 "true"|"false"		    { if(print_flex) printf("BOOLEAN_VAL ");	yylval = yytext; return BOOLEAN_VAL; }
 [0-9]+		            { if(print_flex) printf("INTEGER_VAL ");	yylval = yytext; return INTEGER_VAL; }
 [/][/].*\n              {  } // comment
+[-+*/{}()\]\[!;,=.<] { printf("math_symbol: %s\n", yytext); return yytext[0]; }
 
 {identifier}    {
                     yylval = yytext;
-                    printf("id ");
+		            if(print_flex)
+                       printf("id : %s\n", yytext);
                     return ID;
                 }
 
