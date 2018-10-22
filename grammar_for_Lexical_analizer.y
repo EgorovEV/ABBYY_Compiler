@@ -8,8 +8,6 @@
     #define DEBUG
 
     int  wrapRet = 1;
-    bool print_bison = false;
-    bool print_flex = false;
 
     int yylex(void);
     extern "C" {
@@ -22,7 +20,7 @@
           //cout << "mini-Java Parser: " << str << endl;
         #endif
     }
-    int main(int, char **);
+    int main();
 %}
 
 %union {
@@ -32,7 +30,8 @@
 
 %token SHUT_DOWN
 %token CLASS
-%token ID DOT COMMA LBRACE RBRACE CURLY_LBRACE CURLY_RBRACE
+%token ID
+%token OR
 %token OTHER DEF  DEFINED
 %token WHILE RETURN EXTENDS PUBLIC STATIC VOID MAIN INT BOOL STRING PRINTLN THIS
 %token LENGTH  NEW AND BOOLEAN_VAL INTEGER_VAL
@@ -61,7 +60,7 @@ start_point: main_class_declaration class_declaration_list{
 }
 
 main_class_declaration:
-    CLASS Identifier '{'  VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
+    CLASS Identifier '{'  PUBLIC STATIC VOID MAIN '(' STRING '[' ']' ID ')' '{' Statement '}' '}'
         {
             cout << "main class declaration start!\n" << endl;
         }
@@ -256,7 +255,7 @@ Expression :
 
 Identifier: ID
     {
-        cout << "id";
+        cout << " \n";
     }
 
 ExpressionList:
@@ -284,18 +283,7 @@ ExpressionEnumerate:
 
 %%
 
-int main(int argc, char **argv)
+int main()
 {
-    for(int i = 1; i < argc; ++i) 
-    {
-	if(std::string(argv[i]) == "-pl") 
-        {
-	    print_flex = true;
-	}
-	if(std::string(argv[i]) == "-pb") 
-        {
-	    print_bison = true;
-	}
-    }
     return yyparse();
 }
