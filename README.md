@@ -19,21 +19,24 @@ To install required dependencies run:<br />
 ## Materials:
 https://drive.google.com/drive/u/0/folders/1Q7nlEMtqZIvuYCEbITspLKm4TuCq4KLL <br />
 
-## Demo:
+### How to run the compiler:
 ```asm
 make
 cat test.txt | ./parser
 ```
-Должен вывести первой сторокой: "CLASS: Factorial({)" <br />
-Далее по ситуации <br />
-
-### To run the compiler:
+Для просмотра .dot файла-- визуализация грамматики:
 ```asm
-... see Demo
+sudo apt install xdot
+xdot grammar_for_Lexical_analizer.dot
 ```
-Flags:
+Может повисеть секунд 30-- минуту. <br />
+Флаги для тестов:
+```asm
 -pl - print lexer debug info
 -pr - print bison debug info
+```
+
+
 ## Main Results
 connected flex with bison<br />
 expand grammar<br />
@@ -43,3 +46,4 @@ create if-else, tests are required <br />
 ## Useful links
 how2start: http://rus-linux.net/lib.php?name=/MyLDP/algol/lex-yacc-howto.html <br />
 bison docs: ftp://ftp.auckland.ac.nz/pub/gnu/Manuals/bison-1.35/html_chapter/bison_8.html <br />
+

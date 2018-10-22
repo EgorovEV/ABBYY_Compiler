@@ -8,8 +8,6 @@
     #define DEBUG
 
     int  wrapRet = 1;
-    bool print_bison = false;
-    bool print_flex = false;
 
     int yylex(void);
     extern "C" {
@@ -22,7 +20,7 @@
           //cout << "mini-Java Parser: " << str << endl;
         #endif
     }
-    int main(int, char **);
+    int main();
 %}
 
 %union {
@@ -285,18 +283,7 @@ ExpressionEnumerate:
 
 %%
 
-int main(int argc, char **argv)
+int main()
 {
-    for(int i = 1; i < argc; ++i) 
-    {
-	if(std::string(argv[i]) == "-pl") 
-        {
-	    print_flex = true;
-	}
-	if(std::string(argv[i]) == "-pb") 
-        {
-	    print_bison = true;
-	}
-    }
     return yyparse();
 }
