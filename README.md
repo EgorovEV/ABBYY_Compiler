@@ -31,6 +31,9 @@ cat test.txt | ./parser
 ```asm
 ... see Demo
 ```
+Flags:
+-pl - print lexer debug info
+-pr - print bison debug info
 ## Main Results
 connected flex with bison<br />
 expand grammar<br />
